@@ -2,7 +2,7 @@ import datetime
 import os
 import os.path as op
 
-from flask import Flask
+from flask import Flask, render_template, send_from_directory, url_for
 from flask.ext import admin
 from flask.ext.mongoengine import MongoEngine
 from flask.ext.admin.form import rules
@@ -89,10 +89,32 @@ class ArtistView(ModelView):
     }
 
 
-# Flask views
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+
 @app.route('/')
 def index():
-    return '<a href="/admin/">Click me to get to Admin!</a>'
+    return render_template('index.html')
+
+
+@app.route('/artists/')
+def artists():
+    return render_template('artists.html', artists=Artist.objects())
+
+
+@app.route('/artist/<name>')
+def artist(name):
+    return render_template('artist.html', artists=Artist.objects(name=name))
+
+
+# meh, add a route for media, files, etc and something like
+# http://www.boxcontrol.net/simple-stream-your-media-with-flask-python-web-framework-tutorial.html
+
+
+# figure out the downspout portion of this problem, add a sync service
+# consider using workers to perform the sync, but store in mongo.
 
 
 if __name__ == '__main__':
@@ -105,6 +127,7 @@ if __name__ == '__main__':
     # Add views
     admin.add_view(UserView(User, name="Users"))
     admin.add_view(ModelView(Artist))
+    # Service should be auto-sync'd with the list that downspout provides.
     admin.add_view(ModelView(Service))
     admin.add_view(ModelView(Media))
     admin.add_view(ModelView(File))
