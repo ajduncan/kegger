@@ -12,7 +12,7 @@ Woo, kegger!
 
 ## Running ##
 
-	$ (.env) python kegger.py
+	$ (.env) python kegger/app.py
 
 	View app @ http://localhost:5000/
 
