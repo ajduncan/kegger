@@ -8,6 +8,7 @@ from flask.ext.mongoengine import MongoEngine
 from flask.ext.admin.form import rules
 from flask.ext.admin.contrib.mongoengine import ModelView
 
+from downspout import services
 
 # Create application
 app = Flask(__name__)
@@ -32,15 +33,7 @@ class User(db.Document):
 class Artist(db.Document):
     
     name = db.StringField(max_length=40)
-    service = db.ListField(db.ReferenceField('Service'))
-
-
-class Service(db.Document):
-    
-    name = db.StringField(max_length=20)
-
-    def __unicode__(self):
-        return self.name
+    service = db.StringField(choices=services)
 
 
 class Media(db.Document):
@@ -127,8 +120,6 @@ if __name__ == '__main__':
     # Add views
     admin.add_view(UserView(User, name="Users"))
     admin.add_view(ModelView(Artist))
-    # Service should be auto-sync'd with the list that downspout provides.
-    admin.add_view(ModelView(Service))
     admin.add_view(ModelView(Media))
     admin.add_view(ModelView(File))
 
