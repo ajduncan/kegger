@@ -5,10 +5,13 @@ import os.path as op
 from flask import Flask, render_template, send_from_directory, url_for
 from flask.ext import admin
 from flask.ext.mongoengine import MongoEngine
+from flask.ext.admin.contrib import rediscli
 from flask.ext.admin.form import rules
 from flask.ext.admin.contrib.mongoengine import ModelView
+from redis import Redis
+from rq import Queue
 
-from downspout import services
+from downspout import services, utils
 
 # Create application
 app = Flask(__name__)
@@ -92,6 +95,14 @@ def index():
     return render_template('index.html')
 
 
+# need a login requirement here etc.
+@app.route('/fetch/<service>/<artist>')
+def fetch(service, artist):
+    q = Queue(connection=Redis())
+    result = q.enqueue(utils.fetch, service, artist)
+    return render_template('fetch.html')
+
+
 @app.route('/artists/')
 def artists():
     return render_template('artists.html', artists=Artist.objects())
@@ -122,6 +133,7 @@ if __name__ == '__main__':
     admin.add_view(ModelView(Artist))
     admin.add_view(ModelView(Media))
     admin.add_view(ModelView(File))
+    admin.add_view(rediscli.RedisCli(Redis()))
 
     # Start app
     app.run(debug=True)

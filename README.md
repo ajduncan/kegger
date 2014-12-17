@@ -12,6 +12,7 @@ Woo, kegger!
 
 ## Running ##
 
+	$ (.env) python kegger/woo.py (in a separate terminal, or background)
 	$ (.env) python kegger/app.py
 
 	View app @ http://localhost:5000/
