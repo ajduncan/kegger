@@ -3,7 +3,18 @@
     <head><meta charset="utf-8"></head>
     <body>
         {% block body %}
-        <a href="{{ url_for('admin.index') }}">Admin</a>
+        <div>
+            {% if user and user.is_authenticated() %}
+                Hello {{ user.login }}! <a href="{{ url_for('logout_view') }}">Logout</a><br><br>
+            {% else %}
+                <br><br>
+                Please either <a href="{{ url_for('login_view') }}">Login</a> or <a href="{{ url_for('register_view') }}">Register</a>
+                <br><br>
+            {% endif %}
+        </div>
+        <div>
+            <a href="{{ url_for('admin.index') }}">Admin Panel</a>
+        </div>
         {% endblock body %}
     </body>
 </html>
