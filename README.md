@@ -12,6 +12,8 @@ Woo, kegger!
 
 ## Running ##
 
+	Start redis.
+
 	$ (.env) python kegger/woo.py (in a separate terminal, or background)
 	$ (.env) python kegger/app.py
 
