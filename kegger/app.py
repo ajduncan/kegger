@@ -12,8 +12,9 @@ from flask.ext.admin.contrib.mongoengine import ModelView
 from redis import Redis
 from rq import Queue
 from wtforms import form, fields, validators
-
 from downspout import services, utils
+
+import tap
 
 # Create application
 app = Flask(__name__)
@@ -175,12 +176,11 @@ def index():
     return render_template('index.html', user=login.current_user)
 
 
-# need a login requirement here etc.
 @app.route('/fetch/<service>/<artist>')
 @login_required
 def fetch(service, artist):
     q = Queue(connection=Redis())
-    result = q.enqueue(utils.fetch, service, artist)
+    fetch_job = q.enqueue(tap.fetch, service, artist)
     return render_template('fetch.html', user=login.current_user)
 
 
