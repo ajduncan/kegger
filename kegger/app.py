@@ -4,6 +4,7 @@ import os.path as op
 
 from flask import Flask, render_template, send_from_directory, url_for, redirect, request
 from flask.ext import admin, login
+from flask.ext.login import login_required
 from flask.ext.mongoengine import MongoEngine
 from flask.ext.admin.contrib import rediscli
 from flask.ext.admin.form import rules
@@ -176,20 +177,23 @@ def index():
 
 # need a login requirement here etc.
 @app.route('/fetch/<service>/<artist>')
+@login_required
 def fetch(service, artist):
     q = Queue(connection=Redis())
     result = q.enqueue(utils.fetch, service, artist)
-    return render_template('fetch.html')
+    return render_template('fetch.html', user=login.current_user)
 
 
 @app.route('/artists/')
+@login_required
 def artists():
-    return render_template('artists.html', artists=Artist.objects())
+    return render_template('artists.html', artists=Artist.objects(), user=login.current_user)
 
 
 @app.route('/artist/<name>')
+@login_required
 def artist(name):
-    return render_template('artist.html', artists=Artist.objects(name=name))
+    return render_template('artist.html', artists=Artist.objects(name=name), user=login.current_user)
 
 
 @app.route('/login/', methods=('GET', 'POST'))
@@ -219,6 +223,7 @@ def register_view():
 
 
 @app.route('/logout/')
+@login_required
 def logout_view():
     login.logout_user()
     return redirect(url_for('index'))
