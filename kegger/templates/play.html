@@ -1,0 +1,11 @@
+{% extends 'index.html' %}
+
+{% block body %}
+    {{ super() }}
+    <br>
+    <h3>{{ title }}</h3>
+    <audio controls autoplay>
+        <source src="{{ url_for('fstream', name=filename) }}" type="audio/mp3">
+        Your browser does not support this audio format.
+    </audio>
+{% endblock %}

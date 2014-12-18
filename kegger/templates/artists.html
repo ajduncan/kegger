@@ -8,7 +8,7 @@
   {% set i = 0 %}
   {% for artist in artists %}
     {% set i = i + 1 %}
-    {{ i }}. {{ artist.name }}@{{ artist.service[0].name }}<br>
+    {{ i }}. <a href="{{ url_for('artist', name=artist.name) }}">{{ artist.name }}</a> @ {{ artist.service }}<br>
   {% endfor %}
 
 {% endblock %}

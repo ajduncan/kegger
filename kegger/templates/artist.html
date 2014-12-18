@@ -4,11 +4,16 @@
   {{ super() }}
   <br>
 
-  Artists which match your query:<br>
+  Artists which match your query:<br><br>
   {% set i = 0 %}
   {% for artist in artists %}
     {% set i = i + 1 %}
-    {{ i }}. {{ artist.name }}@{{ artist.service[0].name }}<br>
+    {{ i }}. {{ artist.name }} @ {{ artist.service }}<br>
+    <ul>
+    {% for medium in media %}
+        <li><a href="{{ url_for('play', filename=medium.data.name) }}">{{ medium.data.name }}</a></li>
+    {% endfor %}
+    </ul>
   {% endfor %}
 
 {% endblock %}
