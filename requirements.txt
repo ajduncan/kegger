@@ -1,4 +1,4 @@
-Flask-Admin==1.0.9
+Flask-Admin==1.5.3
 Flask-Login==0.2.11
 Flask-MongoEngine==0.7.1
 Pillow==2.6.1
