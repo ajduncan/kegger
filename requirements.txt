@@ -1,7 +1,7 @@
 Flask-Admin==1.0.9
 Flask-Login==0.2.11
 Flask-MongoEngine==0.7.1
-Pillow==2.6.1
+Pillow==10.0.1
 rq==0.4.6
 -e git://github.com/ajduncan/stagger.git@master#egg=stagger
 -e git://github.com/ajduncan/downspout.git@master#egg=downspout
