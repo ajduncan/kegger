@@ -5,3 +5,4 @@ Pillow==2.6.1
 rq==0.4.6
 -e git://github.com/ajduncan/stagger.git@master#egg=stagger
 -e git://github.com/ajduncan/downspout.git@master#egg=downspout
+dnspython>=2.6.0rc1 # not directly required, pinned by Snyk to avoid a vulnerability
